@@ -67,8 +67,7 @@ let form = document.querySelector(".form")
 function generateForm(){
     if (!document.querySelector("form")) {
         let myForm = document.createElement("form")
-        // myForm.setAttribute("method", "POST")
-        // myForm.setAttribute("action", "#")
+        myForm.setAttribute("name", "bookForm")
         let formToInsert = `            
         <div>
             <label for="title">Title*</label>
@@ -96,35 +95,39 @@ function generateForm(){
         `
     myForm.insertAdjacentHTML("afterBegin", formToInsert)
     form.appendChild(myForm)
-    }}
+
+    let bookForm = document.querySelector('[name="bookForm"]')
+    bookForm.addEventListener("submit", (e) => {
+        submitForm()
+        e.preventDefault()
+    })
+
+    
+    }
+}
 
 // // Affichage du formulaire //   
 
 addBookBtn.addEventListener("click", () => {
     generateForm()
     bookSection.style.filter = "blur(10px)"
-    // document.querySelector(".form").classList.toggle("hide")
-
+    document.querySelector(".form").classList.toggle("hide")
 })
 
-// // Submit form
 
-document.addEventListener("click", (e) => {
-    if(e.target.matches(".submitBook")){
-        // e.preventDefault()
-        let myNewBook = new Book(
-            document.getElementById("title").value,
-            document.getElementById("author").value,
-            document.getElementById("pages").value,
-            document.getElementById("status").value
-        )
-        // clearInput()
-        myLibrary.addBookToLibrary(myNewBook)
-        document.querySelector("form").remove()
-        bookSection.style.filter = "none"
-        myLibrary.getLibrary()
-    }
-} )
+function submitForm(){
+    let myNewBook = new Book(
+        document.getElementById("title").value,
+        document.getElementById("author").value,
+        document.getElementById("pages").value,
+        document.getElementById("status").value
+    )
+    myLibrary.addBookToLibrary(myNewBook)
+    clearInput()
+    document.querySelector(".form").classList.toggle("hide")
+    bookSection.style.filter = "none"
+    myLibrary.getLibrary()
+}
 
 function clearInput(){
     document.getElementById("title").value = ""
@@ -147,5 +150,10 @@ myLibrary.addBookToLibrary(Test)
 myLibrary.addBookToLibrary(PwF)
 
 myLibrary.getLibrary()
+
+
+
+
+
 
 
