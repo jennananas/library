@@ -22,7 +22,7 @@ class Library {
 
     removeBook(book){
         const index = this.library.indexOf(book)
-        return this.library.splice(index, 1)
+        this.library.splice(index, 1)   
     }
 
     displayBook(book){
@@ -36,13 +36,21 @@ class Library {
         let removeBook = document.createElement("button")
         removeBook.classList.add("removeBtn")
         removeBook.textContent = "Remove"
+        removeBook.addEventListener("click", (e) => 
+        {
+            this.removeBook(book)
+            e.target.parentNode.remove()
+
+        })
         bookTitle.textContent = book.title
         bookAuthor.textContent = `by ${book.author}`
         bookPages.textContent = book.pages
         bookStatus.textContent = book.isRead
         myBook.append(bookTitle, bookAuthor, bookPages, bookStatus, removeBook)
-        return bookSection.appendChild(myBook)
+        bookSection.appendChild(myBook)
     }
+
+
 
     getLibrary(){
         this.library.forEach(book => {
@@ -62,7 +70,7 @@ let addBookBtn = document.querySelector(".addBook")
 let header = document.querySelector("header")
 let form = document.querySelector(".form")
 
-// FORM 
+
 
 function generateForm(){
     if (!document.querySelector("form")) {
@@ -106,7 +114,6 @@ function generateForm(){
     }
 }
 
-// // Affichage du formulaire //   
 
 addBookBtn.addEventListener("click", () => {
     generateForm()
@@ -141,13 +148,13 @@ function clearInput(){
 
 let myLibrary =  new Library([])
 
-let HarryP = new Book("Harry Potter", "J.K Rowling", "400", "read");
-let Test = new Book("Book Test", "Author test", "300", "not read yet");
-let PwF = new Book("Playing With Fire", "L.J Shen", "400", "read");
+// let HarryP = new Book("Harry Potter", "J.K Rowling", "400", "read");
+// let Test = new Book("Book Test", "Author test", "300", "not read yet");
+// let PwF = new Book("Playing With Fire", "L.J Shen", "400", "read");
 
-myLibrary.addBookToLibrary(HarryP)
-myLibrary.addBookToLibrary(Test)
-myLibrary.addBookToLibrary(PwF)
+// myLibrary.addBookToLibrary(HarryP)
+// myLibrary.addBookToLibrary(Test)
+// myLibrary.addBookToLibrary(PwF)
 
 myLibrary.getLibrary()
 
