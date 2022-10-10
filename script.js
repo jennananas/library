@@ -1,14 +1,21 @@
 class Book {
-    constructor(title, author, pages, isRead) {
+    constructor(title, author, pages) {
         this.title = title;
         this.author = author;
         this.pages = pages;
-        this.isRead = isRead;
+        this.status = false;
     }
     info() {
-        return (`${title} by ${author}, ${pages} pages, ${isRead}`)
+        return (`${this.title} by ${this.author}, ${this.pages} pages, ${this.status}`)
     }
-    
+    changeStatus(){
+        if (this.status){
+            this.status = false
+        } else {
+            this.status = true
+        }
+        return this.status
+    }
 }
 
 class Library {
@@ -19,6 +26,7 @@ class Library {
     addBookToLibrary(book){
         return this.library.push(book)
     }
+
 
     removeBook(book){
         const index = this.library.indexOf(book)
@@ -32,21 +40,37 @@ class Library {
         let bookTitle = document.createElement("h2")
         let bookAuthor = document.createElement("p")
         let bookPages = document.createElement("p")
-        let bookStatus = document.createElement("p")
+        let buttonsDiv = document.createElement("div")
+
+        buttonsDiv.classList.add("buttonsDiv")
+        let toggleLab = document.createElement("label")
+        toggleLab.classList.add("toggle")
+        let bookStatus = document.createElement("input")
+        bookStatus.setAttribute("type", "checkbox")
+        bookStatus.addEventListener("change", () => {
+            book.changeStatus()
+            bookStatus.parentNode.parentNode.parentNode.classList.toggle("read")
+        })
+        let slider = document.createElement("span")
+        slider.classList.add("slider")
+        let labels = document.createElement("span")
+        labels.classList.add("labels")
+        labels.setAttribute("data-on", "READ")
         let removeBook = document.createElement("button")
         removeBook.classList.add("removeBtn")
         removeBook.textContent = "Remove"
         removeBook.addEventListener("click", (e) => 
         {
             this.removeBook(book)
-            e.target.parentNode.remove()
+            e.target.parentNode.parentNode.remove()
 
         })
         bookTitle.textContent = book.title
         bookAuthor.textContent = `by ${book.author}`
         bookPages.textContent = book.pages
-        bookStatus.textContent = book.isRead
-        myBook.append(bookTitle, bookAuthor, bookPages, bookStatus, removeBook)
+        myBook.append(bookTitle, bookAuthor, bookPages, buttonsDiv)
+        toggleLab.append(bookStatus, slider, labels)
+        buttonsDiv.append(toggleLab, removeBook)
         bookSection.appendChild(myBook)
     }
 
@@ -86,16 +110,8 @@ function generateForm(){
             <input type="text" id="author" name="author" required />
         </div>
         <div>
-            <label for="pages">Nb of pages</label>
+            <label for="pages">Nb of pages*</label>
             <input type="number" id="pages" name="pages" required />
-        </div>
-        <div>
-            <label for="status">Reading status*</label>
-            <select name="status" id="status" required>
-                <option value="not started">Not started</option>
-                <option value="reading">Reading</option>
-                <option value="finished">Finished</option>
-            </select>
         </div>
         <div>
             <button type="submit" class="submitBook">Add</button>
@@ -126,8 +142,7 @@ function submitForm(){
     let myNewBook = new Book(
         document.getElementById("title").value,
         document.getElementById("author").value,
-        document.getElementById("pages").value,
-        document.getElementById("status").value
+        document.getElementById("pages").value
     )
     myLibrary.addBookToLibrary(myNewBook)
     clearInput()
@@ -140,21 +155,20 @@ function clearInput(){
     document.getElementById("title").value = ""
     document.getElementById("author").value = ""
     document.getElementById("pages").value = ""
-    document.getElementById("status").value = ""
 }
 
 
-// Add dummy info
+// // Add dummy info
 
 let myLibrary =  new Library([])
 
-// let HarryP = new Book("Harry Potter", "J.K Rowling", "400", "read");
-// let Test = new Book("Book Test", "Author test", "300", "not read yet");
-// let PwF = new Book("Playing With Fire", "L.J Shen", "400", "read");
+let HarryP = new Book("Harry Potter", "J.K Rowling", "400");
+let Test = new Book("Book Test", "Author test", "300");
+let PwF = new Book("Playing With Fire", "L.J Shen", "10");
 
-// myLibrary.addBookToLibrary(HarryP)
-// myLibrary.addBookToLibrary(Test)
-// myLibrary.addBookToLibrary(PwF)
+myLibrary.addBookToLibrary(HarryP)
+myLibrary.addBookToLibrary(Test)
+myLibrary.addBookToLibrary(PwF)
 
 myLibrary.getLibrary()
 
