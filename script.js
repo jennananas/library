@@ -67,7 +67,7 @@ class Library {
         })
         bookTitle.textContent = book.title
         bookAuthor.textContent = `by ${book.author}`
-        bookPages.textContent = book.pages
+        bookPages.textContent = `${book.pages} pages`
         myBook.append(bookTitle, bookAuthor, bookPages, buttonsDiv)
         toggleLab.append(bookStatus, slider, labels)
         buttonsDiv.append(toggleLab, removeBook)
